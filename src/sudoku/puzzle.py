@@ -9,7 +9,7 @@ def find_puzzle(image, debug=False):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (7, 7), 3)
 
-    treshold = cv2.adaptiveThreshold(
+    thresh = cv2.adaptiveThreshold(
         blurred,
         255,
         cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
@@ -20,10 +20,10 @@ def find_puzzle(image, debug=False):
 
     # Visualizing each step of the image processing pipeline
     if debug:
-        cv2.imshow('Puzzle Treshold', treshold)
+        cv2.imshow('Puzzle Treshold', thresh)
         cv2.waitKey(0)
     
-    # Find contours in the tresholded image and sort them by size in descending order
+    # Find contours in the thresh image and sort them by size in descending order
     contours = cv2.findContours(
         tresh.copy(),
         cv2.RETR_EXTERNAL,
@@ -61,3 +61,40 @@ def find_puzzle(image, debug=False):
         cv2.waitKey(0)
     
     return (puzzle, wrapped)
+
+
+def extract_digit(cell, debug=False):
+    threshold = cv2.threshold(cell, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+    threshold = clear_border(threshold)
+
+    if debug:
+        cv2.imshow('Cell Thresh', threshold)
+        cv2.waitKey(0)
+
+    contour = cv2.findContours(
+        threshold.copy(),
+        cv2.RETR_EXTERNAL,
+        cv2.CHAIN_APPROX_SIMPLE
+    )
+    contour = imutils.grab_contours(contour)
+
+    if len(contour) == 0:
+        return None
+
+    c = max(contour, key=cv2.contourArea)
+    mask = np.zeros(threshold.shape, dtype='uint8')
+    cv2.drawContours(mask, [c], -1, 255, -1)
+
+    (height, weight) = threshold.shape
+    percentFilled = cv2.countNonZero(mask) / float(width * height)
+
+    if percentFilled < 0.03:
+        return None
+
+    digit = cv2.bitwise_and(threshold, threshold, mask=mask)
+
+    if debug:
+        cv2.imshow('Cell Thresh', threshold)
+        cv2.waitKey(0)
+
+    return digit
