@@ -30,6 +30,8 @@ def find_puzzle(image, debug=False):
         cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_SIMPLE
     )
+    contours = imutils.grab_contours(contours)
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)
 
     puzzleContour = None
 
