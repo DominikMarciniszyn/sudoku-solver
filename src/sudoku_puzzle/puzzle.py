@@ -17,6 +17,7 @@ def find_puzzle(image, debug=False):
         11,
         2
     )
+    threshold = cv2.bitwise_not(threshold)
 
     # Visualizing each step of the image processing pipeline
     if debug:
@@ -32,10 +33,10 @@ def find_puzzle(image, debug=False):
 
     puzzleContour = None
 
-    for contour in contours:
-        peri = cv2.arcLength(contour, True)
+    for c in contours:
+        peri = cv2.arcLength(c, True)
         approx = cv2.approxPolyDP(
-            contour, 
+            c, 
             0.02 * peri,
             True
         )
