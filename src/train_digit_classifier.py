@@ -1,4 +1,4 @@
-from .models.sudoku import Sudoku
+from models.sudoku import Sudoku
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.datasets import mnist
 from sklearn.preprocessing import LabelBinarizer
