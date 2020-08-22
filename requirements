@@ -5,3 +5,4 @@ opencv-contrib-python
 scikit-learn
 pillow
 imutils
+scikit-image
