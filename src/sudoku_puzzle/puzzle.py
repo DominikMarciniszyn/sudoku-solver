@@ -88,7 +88,7 @@ def extract_digit(cell, debug=False):
     mask = np.zeros(threshold.shape, dtype='uint8')
     cv2.drawContours(mask, [c], -1, 255, -1)
 
-    (height, weight) = threshold.shape
+    (height, width) = threshold.shape
     percentFilled = cv2.countNonZero(mask) / float(width * height)
 
     if percentFilled < 0.03:
