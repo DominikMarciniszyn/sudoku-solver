@@ -1,4 +1,4 @@
-from sudoku.puzzle import (
+from sudoku_puzzle.puzzle import (
     find_puzzle,
     extract_digit
 )

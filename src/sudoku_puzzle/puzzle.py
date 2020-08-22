@@ -9,7 +9,7 @@ def find_puzzle(image, debug=False):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (7, 7), 3)
 
-    thresh = cv2.adaptiveThreshold(
+    threshold = cv2.adaptiveThreshold(
         blurred,
         255,
         cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
@@ -20,12 +20,12 @@ def find_puzzle(image, debug=False):
 
     # Visualizing each step of the image processing pipeline
     if debug:
-        cv2.imshow('Puzzle Treshold', thresh)
+        cv2.imshow('Puzzle Treshold', threshold)
         cv2.waitKey(0)
     
     # Find contours in the thresh image and sort them by size in descending order
     contours = cv2.findContours(
-        tresh.copy(),
+        threshold.copy(),
         cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_SIMPLE
     )
