@@ -4,7 +4,7 @@ from sudoku.puzzle import (
 )
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
-from Sudoku import Sudoku
+from sudoku import Sudoku
 import numpy as np
 import argparse
 import imutils
